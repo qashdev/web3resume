@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Qasir Khan — Blockchain / Web3 Full Stack Developer</title>
+<meta name="description" content="Qasir Khan — full-stack engineer building privacy-first Web3 products. Solidity, EVM, React, Node. Creator of a privacy-preserving DEX and an NFT platform for musicians." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Qasir Khan — Blockchain / Web3 Full Stack Developer" />
+<meta property="og:description" content="Full-stack engineer shipping on-chain products end to end — from Solidity to the last pixel." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0A0C10;
+  --bg-2:#0D1015;
+  --surface:#111419;
+  --surface-2:#161A21;
+  --line:#232932;
+  --line-soft:#191D24;
+  --fg:#E9EBEE;
+  --fg-dim:#98A0AB;
+  --fg-faint:#5C636E;
+  --accent:#5EEAD4;          /* shielded signal */
+  --accent-2:#37B79F;
+  --accent-glow:rgba(94,234,212,.14);
+  --violet:#A78BFA;          /* used only for the NFT/creative note */
+  --maxw:1120px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:"Manrope",system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+/* faint dot grid + top glow */
+body::before{
+  content:"";
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(60rem 40rem at 72% -8%, var(--accent-glow), transparent 60%),
+    radial-gradient(50rem 40rem at 0% 0%, rgba(167,139,250,.06), transparent 55%);
+}
+body::after{
+  content:"";
+  position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0);
+  background-size:26px 26px;
+  mask-image:linear-gradient(to bottom, #000, transparent 90%);
+}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px; position:relative; z-index:1}
+
+a{color:inherit; text-decoration:none}
+::selection{background:var(--accent); color:var(--bg)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:4px}
+
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent); display:inline-flex; align-items:center; gap:.6em;
+}
+.eyebrow::before{content:""; width:22px; height:1px; background:var(--accent); opacity:.7}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  backdrop-filter:blur(10px);
+  background:linear-gradient(to bottom, rgba(10,12,16,.85), rgba(10,12,16,.4));
+  border-bottom:1px solid transparent;
+  transition:border-color .3s, background .3s;
+}
+.nav.scrolled{border-bottom-color:var(--line-soft); background:rgba(10,12,16,.9)}
+.nav-in{max-width:var(--maxw); margin:0 auto; padding:16px 28px; display:flex; align-items:center; justify-content:space-between}
+.brand{display:flex; align-items:center; gap:11px; font-weight:600; letter-spacing:.01em}
+.brand .mk{
+  width:34px; height:34px; border:1px solid var(--line); border-radius:9px;
+  display:grid; place-items:center; font-family:"IBM Plex Mono",monospace; font-size:13px;
+  color:var(--accent); background:var(--surface); position:relative;
+}
+.brand .mk::after{content:""; position:absolute; inset:0; border-radius:9px; box-shadow:0 0 0 1px transparent, 0 0 22px -6px var(--accent-glow)}
+.nav-links{display:flex; align-items:center; gap:30px}
+.nav-links a{font-size:14.5px; color:var(--fg-dim); transition:color .2s}
+.nav-links a:hover{color:var(--fg)}
+.nav-links .mono{font-size:13px}
+.btn{
+  font-family:"IBM Plex Mono",monospace; font-size:13px; letter-spacing:.02em;
+  padding:9px 15px; border-radius:8px; border:1px solid var(--line);
+  color:var(--fg); background:var(--surface); transition:all .2s var(--ease);
+  display:inline-flex; align-items:center; gap:8px;
+}
+.btn:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px)}
+.btn-solid{background:var(--accent); color:#04140F; border-color:var(--accent); font-weight:600}
+.btn-solid:hover{color:#04140F; background:#7df0dd; box-shadow:0 8px 30px -10px var(--accent-glow)}
+.nav-toggle{display:none}
+
+/* ---------- Hero ---------- */
+.hero{padding:170px 0 90px; position:relative}
+.hero-grid{display:grid; grid-template-columns:1.35fr .9fr; gap:56px; align-items:center}
+.h1{
+  font-family:"Space Grotesk",sans-serif; font-weight:600;
+  font-size:clamp(2.5rem,6vw,4.4rem); line-height:1.02; letter-spacing:-.02em;
+  margin:22px 0 0;
+}
+.h1 .lit{color:var(--accent); position:relative}
+.h1 .lit::after{content:""; position:absolute; left:0; right:0; bottom:.08em; height:2px; background:var(--accent); opacity:.5}
+.lede{color:var(--fg-dim); font-size:19px; max-width:44ch; margin:24px 0 0}
+.lede b{color:var(--fg); font-weight:600}
+.hero-cta{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap}
+.hero-cta a{padding:12px 20px; font-size:14px}
+
+/* hero side panel: a "manifest" */
+.panel{
+  border:1px solid var(--line); border-radius:16px; background:linear-gradient(180deg,var(--surface),var(--bg-2));
+  padding:6px; position:relative; overflow:hidden;
+}
+.panel-bar{display:flex; align-items:center; gap:7px; padding:12px 14px; border-bottom:1px solid var(--line-soft)}
+.dot{width:9px; height:9px; border-radius:50%; background:var(--line)}
+.panel-bar .mono{margin-left:auto; font-size:12px; color:var(--fg-faint)}
+.panel-body{padding:16px 16px 18px; font-family:"IBM Plex Mono",monospace; font-size:13.5px; line-height:1.95}
+.panel-body .k{color:var(--fg-faint)}
+.panel-body .s{color:var(--accent)}
+.panel-body .v{color:var(--fg)}
+.panel-body .c{color:var(--violet)}
+.cursor{display:inline-block; width:8px; height:15px; background:var(--accent); vertical-align:-2px; animation:blink 1.15s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.stats{display:flex; gap:0; margin-top:56px; border:1px solid var(--line-soft); border-radius:14px; overflow:hidden}
+.stat{flex:1; padding:20px 22px; border-right:1px solid var(--line-soft)}
+.stat:last-child{border-right:0}
+.stat .n{font-family:"Space Grotesk",sans-serif; font-size:28px; font-weight:600; letter-spacing:-.01em}
+.stat .l{font-size:13px; color:var(--fg-dim); margin-top:2px}
+.stat .n .u{color:var(--accent); font-size:20px}
+
+/* ---------- Section frame ---------- */
+.section{padding:96px 0; border-top:1px solid var(--line-soft)}
+.sec-head{display:flex; align-items:baseline; justify-content:space-between; gap:24px; margin-bottom:44px; flex-wrap:wrap}
+.sec-title{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:clamp(1.8rem,3.6vw,2.6rem); letter-spacing:-.02em; margin:14px 0 0}
+.sec-note{color:var(--fg-dim); font-size:15px; max-width:34ch}
+
+/* ---------- Work ---------- */
+.work{display:grid; gap:22px}
+.card{
+  border:1px solid var(--line); border-radius:18px; background:var(--surface);
+  padding:30px; position:relative; transition:border-color .25s, transform .25s var(--ease), background .25s;
+}
+.card:hover{border-color:#31424a; transform:translateY(-3px); background:var(--surface-2)}
+.card-top{display:flex; align-items:center; gap:12px; margin-bottom:18px}
+.tag{
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent); border:1px solid var(--line); padding:5px 10px; border-radius:999px; background:var(--accent-dim,rgba(94,234,212,.06));
+}
+.tag.nft{color:var(--violet); border-color:rgba(167,139,250,.25)}
+.card-top .mono{margin-left:auto; color:var(--fg-faint); font-size:12.5px}
+.card h3{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:1.5rem; letter-spacing:-.01em; margin:0 0 10px}
+.card p{color:var(--fg-dim); margin:0; max-width:62ch}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px}
+.chip{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--fg-dim); border:1px solid var(--line-soft); padding:5px 10px; border-radius:7px}
+.card-links{display:flex; gap:18px; margin-top:22px}
+.card-links a{font-size:13.5px; color:var(--fg-dim); display:inline-flex; gap:6px; align-items:center; transition:color .2s}
+.card-links a:hover{color:var(--accent)}
+
+/* featured card layout */
+.card.feature{padding:34px; border-color:#2a3942}
+.feature-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:34px; align-items:center}
+.demo{
+  border:1px solid var(--line); border-radius:14px; background:var(--bg-2); padding:18px 20px;
+  font-family:"IBM Plex Mono",monospace; font-size:13.5px;
+}
+.demo-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px}
+.demo-head .lbl{color:var(--fg-faint); font-size:12px; letter-spacing:.06em}
+.swap-row{display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px dashed var(--line-soft)}
+.swap-row:last-child{border-bottom:0}
+.swap-row .sym{color:var(--fg-dim)}
+.amt{color:var(--fg); transition:filter .3s, color .3s}
+.shielded .amt{filter:blur(6px); color:var(--accent); user-select:none}
+/* toggle */
+.shield{display:inline-flex; align-items:center; gap:9px; cursor:pointer; font-size:12px; color:var(--fg-dim)}
+.switch{width:38px; height:21px; border-radius:999px; background:var(--line); position:relative; transition:background .25s; border:1px solid var(--line)}
+.switch::after{content:""; position:absolute; top:2px; left:2px; width:15px; height:15px; border-radius:50%; background:var(--fg-dim); transition:transform .25s var(--ease), background .25s}
+.shield.on .switch{background:var(--accent-2)}
+.shield.on .switch::after{transform:translateX(17px); background:#04140F}
+.shield.on{color:var(--accent)}
+
+/* ---------- Stack ---------- */
+.stack{display:grid; grid-template-columns:repeat(2,1fr); gap:20px}
+.stack-group{border:1px solid var(--line-soft); border-radius:16px; padding:26px; background:linear-gradient(180deg,var(--surface),transparent)}
+.stack-group h4{font-family:"IBM Plex Mono",monospace; font-size:12.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-dim); margin:0 0 16px; font-weight:500}
+.stack-group h4 .i{color:var(--accent); margin-right:8px}
+.tokens{display:flex; flex-wrap:wrap; gap:9px}
+.tok{font-size:14px; color:var(--fg); border:1px solid var(--line); padding:7px 12px; border-radius:9px; background:var(--surface); transition:border-color .2s, color .2s}
+.tok:hover{border-color:var(--accent); color:var(--accent)}
+.tok.key{border-color:rgba(94,234,212,.3); color:var(--accent)}
+
+/* ---------- Path / timeline ---------- */
+.path{display:grid; gap:0}
+.role{display:grid; grid-template-columns:210px 1fr; gap:30px; padding:26px 0; border-top:1px solid var(--line-soft); position:relative}
+.role:first-child{border-top:0}
+.role .when{font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--fg-faint)}
+.role .when .now{color:var(--accent)}
+.role h3{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:1.25rem; margin:0 0 4px}
+.role .co{color:var(--fg-dim); font-size:14px; margin-bottom:12px}
+.role p{color:var(--fg-dim); margin:0; max-width:60ch}
+
+/* ---------- Contact ---------- */
+.contact{padding:110px 0}
+.contact-card{
+  border:1px solid var(--line); border-radius:24px; padding:56px;
+  background:radial-gradient(120% 140% at 100% 0%, rgba(94,234,212,.08), transparent 55%), var(--surface);
+  text-align:center;
+}
+.contact h2{font-family:"Space Grotesk",sans-serif; font-weight:600; font-size:clamp(2rem,5vw,3.2rem); letter-spacing:-.02em; margin:16px 0 0}
+.contact .mail{
+  display:inline-block; margin-top:26px; font-family:"IBM Plex Mono",monospace;
+  font-size:clamp(15px,2.4vw,21px); color:var(--accent); border-bottom:1px solid rgba(94,234,212,.4); padding-bottom:4px;
+}
+.contact .mail:hover{border-color:var(--accent)}
+.social{display:flex; gap:14px; justify-content:center; margin-top:34px; flex-wrap:wrap}
+
+/* ---------- Footer ---------- */
+.foot{border-top:1px solid var(--line-soft); padding:30px 0}
+.foot-in{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; color:var(--fg-faint); font-size:13px; font-family:"IBM Plex Mono",monospace}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .7s var(--ease), transform .7s var(--ease)}
+.reveal.in{opacity:1; transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr; gap:38px}
+  .panel{order:2}
+  .feature-grid{grid-template-columns:1fr; gap:24px}
+  .stack{grid-template-columns:1fr}
+  .role{grid-template-columns:1fr; gap:6px}
+  .nav-links{display:none}
+  .nav-links.open{display:flex; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:flex-start; gap:18px; padding:22px 28px; background:var(--bg-2); border-bottom:1px solid var(--line)}
+  .nav-toggle{display:inline-flex}
+  .stats{flex-wrap:wrap}
+  .stat{min-width:40%; flex:1 1 40%}
+}
+@media (max-width:480px){
+  .wrap,.nav-in{padding-left:20px; padding-right:20px}
+  .contact-card{padding:34px 22px}
+  body{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important; transition:none !important; scroll-behavior:auto}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">
+      <span class="mk">QK</span>
+      <span>Qasir Khan</span>
+    </a>
+    <nav class="nav-links" id="menu">
+      <a href="#work">Work</a>
+      <a href="#stack">Stack</a>
+      <a href="#path">Path</a>
+      <a href="#contact">Contact</a>
+      <!-- replace with your hosted resume file -->
+      <a class="btn btn-solid" href="./Qasir_Khan_Web3_Developer_Resume.pdf" download>Résumé ↓</a>
+    </nav>
+    <button class="btn nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">0x · Blockchain / Web3 Full Stack Developer</span>
+        <h1 class="h1">I ship on-chain products<br>end to end — from <span class="lit">Solidity</span><br>to the last pixel.</h1>
+        <p class="lede">Three years building production dApps and web apps across the MERN stack and EVM chains. Recently: a <b>privacy-preserving DEX</b> and an <b>NFT platform that pays artists on every resale</b>.</p>
+        <div class="hero-cta">
+          <a class="btn btn-solid" href="#work">View work</a>
+          <a class="btn" href="https://github.com/qashdev" target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn" href="https://linkedin.com/in/qasirkhan-7355871a2" target="_blank" rel="noopener">LinkedIn ↗</a>
+        </div>
+      </div>
+
+      <div class="panel reveal">
+        <div class="panel-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="mono">~/qasir.manifest</span>
+        </div>
+        <div class="panel-body">
+          <div><span class="s">const</span> <span class="v">dev</span> = {</div>
+          <div>&nbsp;&nbsp;<span class="k">role</span>: <span class="c">"Full Stack · Web3"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="k">chains</span>: [<span class="c">"EVM"</span>],</div>
+          <div>&nbsp;&nbsp;<span class="k">focus</span>: <span class="c">"privacy · DeFi · NFTs"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="k">based</span>: <span class="c">"New Delhi, IN"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="k">status</span>: <span class="c">"open to work"</span><span class="cursor"></span></div>
+          <div>};</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="n">3<span class="u">yrs</span></div><div class="l">shipping to production</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">blockchain products, end to end</div></div>
+      <div class="stat"><div class="n">10<span class="u">+</span></div><div class="l">full-stack features live</div></div>
+      <div class="stat"><div class="n">EVM</div><div class="l">Solidity · ethers · wagmi</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Selected work</span>
+        <h2 class="sec-title">Things I built and shipped.</h2>
+      </div>
+      <p class="sec-note">Smart contracts, wallets, storage and UI — I work across the whole stack, not just the front of it.</p>
+    </div>
+
+    <div class="work">
+
+      <!-- FEATURED: Privacy DEX -->
+      <article class="card feature reveal">
+        <div class="feature-grid">
+          <div>
+            <div class="card-top">
+              <span class="tag">defi · privacy</span>
+              <span class="mono">contract · settlement</span>
+            </div>
+            <h3>Privacy DEX</h3>
+            <p>A decentralized exchange for confidential swaps on an EVM chain. Trade amounts and balances stay off the public ledger, while settlement stays fully trustless. I wrote and tested the Solidity swap and pool logic, then wired it to a React front-end over ethers.js with a clean wallet-connect flow.</p>
+            <div class="chips">
+              <span class="chip">Solidity</span><span class="chip">ethers.js</span><span class="chip">React</span><span class="chip">EVM</span><span class="chip">Shielded tx</span>
+            </div>
+            <div class="card-links">
+              <!-- replace # with real links -->
+              <a href="#" aria-label="Live demo">Live demo ↗</a>
+              <a href="https://github.com/qashdev" target="_blank" rel="noopener">Source ↗</a>
+            </div>
+          </div>
+
+          <!-- signature: shield toggle demonstrates the privacy concept -->
+          <div class="demo" id="dex">
+            <div class="demo-head">
+              <span class="lbl">SWAP · LEDGER VIEW</span>
+              <span class="shield on" id="shieldBtn" role="switch" aria-checked="true" tabindex="0">
+                <span>shielded</span><span class="switch"></span>
+              </span>
+            </div>
+            <div class="swap-row"><span class="sym">↳ ETH → USDC</span><span class="amt">4.20 ETH</span></div>
+            <div class="swap-row"><span class="sym">↳ USDC → DAI</span><span class="amt">9,850.00</span></div>
+            <div class="swap-row"><span class="sym">↳ balance</span><span class="amt">17.6 ETH</span></div>
+            <div class="swap-row"><span class="sym">↳ counterparty</span><span class="amt">0x7a…e91c</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Rise Up -->
+      <article class="card reveal">
+        <div class="card-top">
+          <span class="tag nft">nft · creator economy</span>
+          <span class="mono">erc-721 · royalties</span>
+        </div>
+        <h3>Rise Up — NFT platform for artists</h3>
+        <p>A marketplace where singers and artists mint their music and artwork as NFTs and sell straight to fans — with royalties paid automatically on every resale. Built the ERC-721 contracts for minting, ownership and royalty splits, wallet-based sign-in, IPFS for decentralized media, and a React + Tailwind storefront for browsing and minting.</p>
+        <div class="chips">
+          <span class="chip">Solidity</span><span class="chip">ERC-721</span><span class="chip">IPFS</span><span class="chip">React</span><span class="chip">Tailwind</span>
+        </div>
+        <div class="card-links">
+          <a href="#">Live demo ↗</a>
+          <a href="https://github.com/qashdev" target="_blank" rel="noopener">Source ↗</a>
+        </div>
+      </article>
+
+      <!-- CMS -->
+      <article class="card reveal">
+        <div class="card-top">
+          <span class="tag">infra · full-stack</span>
+          <span class="mono">rbac · headless</span>
+        </div>
+        <h3>Custom Headless CMS</h3>
+        <p>One MongoDB-backed content backend — a React admin panel over an Express REST API — powering multiple production sites at once. Role-based access (admin / editor / viewer), rich-text editing, file uploads via Cloudflare R2 and a reusable blog module, so shipping content takes zero developer time.</p>
+        <div class="chips">
+          <span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">MongoDB</span><span class="chip">Cloudflare R2</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/qashdev" target="_blank" rel="noopener">Source ↗</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="section" id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Stack</span>
+        <h2 class="sec-title">What I build with.</h2>
+      </div>
+      <p class="sec-note">Deep on the EVM + MERN side; comfortable owning a feature from contract to component.</p>
+    </div>
+
+    <div class="stack">
+      <div class="stack-group reveal">
+        <h4><span class="i">◈</span>Blockchain / Web3</h4>
+        <div class="tokens">
+          <span class="tok key">Solidity</span><span class="tok key">Smart Contracts</span><span class="tok">EVM · Ethereum</span><span class="tok">Polygon</span><span class="tok">ethers.js</span><span class="tok">web3.js</span><span class="tok">wagmi / viem</span><span class="tok">Hardhat</span><span class="tok">IPFS</span><span class="tok">ERC-20 / 721 / 1155</span><span class="tok">MetaMask · WalletConnect</span>
+        </div>
+      </div>
+      <div class="stack-group reveal">
+        <h4><span class="i">◈</span>Frontend</h4>
+        <div class="tokens">
+          <span class="tok">React</span><span class="tok">Next.js</span><span class="tok">TypeScript</span><span class="tok">JavaScript ES6+</span><span class="tok">Tailwind CSS</span><span class="tok">HTML5 · CSS3</span>
+        </div>
+      </div>
+      <div class="stack-group reveal">
+        <h4><span class="i">◈</span>Backend</h4>
+        <div class="tokens">
+          <span class="tok">Node.js</span><span class="tok">Express</span><span class="tok">REST APIs</span><span class="tok">JWT Auth</span><span class="tok">RBAC</span><span class="tok">MongoDB</span><span class="tok">PostgreSQL</span><span class="tok">MySQL</span>
+        </div>
+      </div>
+      <div class="stack-group reveal">
+        <h4><span class="i">◈</span>Tooling · Delivery</h4>
+        <div class="tokens">
+          <span class="tok">Git</span><span class="tok">GitHub Actions</span><span class="tok">CI/CD</span><span class="tok">Cloudflare R2</span><span class="tok">Vercel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PATH -->
+<section class="section" id="path">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="eyebrow">Path</span>
+        <h2 class="sec-title">Where I've been.</h2>
+      </div>
+      <p class="sec-note">Grew from front-end into full-stack and on-chain work — all at HimoTech Global, Noida.</p>
+    </div>
+
+    <div class="path">
+      <div class="role reveal">
+        <div class="when"><span class="now">now</span> · Sep 2025</div>
+        <div>
+          <h3>Full Stack Developer</h3>
+          <div class="co">HimoTech Global · Noida</div>
+          <p>Shipping full-stack web apps and dApp interfaces. Wiring React front-ends to on-chain logic with ethers.js and wagmi, and building REST APIs with JWT auth and role-based access control.</p>
+        </div>
+      </div>
+      <div class="role reveal">
+        <div class="when">Sep 2024 — Aug 2025</div>
+        <div>
+          <h3>Junior Developer</h3>
+          <div class="co">HimoTech Global · Noida</div>
+          <p>Built responsive React / Tailwind interfaces and integrated REST APIs across MySQL and PostgreSQL. Started a reusable component library that sped up every project after it.</p>
+        </div>
+      </div>
+      <div class="role reveal">
+        <div class="when">Sep 2023 — Aug 2024</div>
+        <div>
+          <h3>Web Developer</h3>
+          <div class="co">HimoTech Global · Noida</div>
+          <p>Front-end for internal tools, CI/CD pipelines with Git and GitHub Actions, and third-party API integrations (payments, analytics) that cut manual work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <span class="eyebrow" style="justify-content:center">Open to Web3 roles</span>
+      <h2>Let's build something on-chain.</h2>
+      <a class="mail" href="mailto:qasirkhan9852@gmail.com">qasirkhan9852@gmail.com</a>
+      <div class="social">
+        <a class="btn" href="https://github.com/qashdev" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="https://linkedin.com/in/qasirkhan-7355871a2" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn btn-solid" href="./Qasir_Khan_Web3_Developer_Resume.pdf" download>Download résumé ↓</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>© <span id="yr"></span> Qasir Khan</span>
+    <span>New Delhi, India · built from scratch</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var nav = document.getElementById('nav');
+  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 8); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // mobile menu
+  var toggle = document.getElementById('navToggle');
+  var menu = document.getElementById('menu');
+  toggle && toggle.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  menu && menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ menu.classList.remove('open'); toggle.setAttribute('aria-expanded', false); });
+  });
+
+  // shield toggle (Privacy DEX signature)
+  var dex = document.getElementById('dex');
+  var btn = document.getElementById('shieldBtn');
+  function setShield(on){
+    dex.classList.toggle('shielded', on);
+    btn.classList.toggle('on', on);
+    btn.setAttribute('aria-checked', on);
+  }
+  setShield(true);
+  function flip(){ setShield(!dex.classList.contains('shielded')); }
+  btn && btn.addEventListener('click', flip);
+  btn && btn.addEventListener('keydown', function(e){
+    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); flip(); }
+  });
+
+  // scroll reveal
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:.14, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
